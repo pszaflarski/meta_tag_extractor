@@ -5,15 +5,10 @@ from selenium import webdriver
 
 import os
 
-import json
-
-
 class meta_tag_extractor():
     def __init__(self):
         self.chromedriver = None
         self.driver = None
-        self.load_settings()
-        os.environ["webdriver.chrome.driver"] = self.chromedriver
 
     def init_webdriver(self):
         self.driver = webdriver.Chrome(self.chromedriver)
@@ -21,9 +16,9 @@ class meta_tag_extractor():
     def close_webdriver(self):
         self.driver.quit()
 
-    def load_settings(self):
-        settings = json.load(open('settings.json'))
-        self.chromedriver = settings['chromedriver']
+    def set_chrome_driver(self, driver_location):
+        self.chromedriver = driver_location
+        os.environ["webdriver.chrome.driver"] = self.chromedriver
 
     def get_tags(self, f):
         r = {}
@@ -57,7 +52,7 @@ class meta_tag_extractor():
         return r
 
     def extract_tags_using_chrome(self, url):
-        if self.driver == None: self.init_webdriver()
+        if self.driver == None:self.init_webdriver()
 
         driver = self.driver
 
@@ -70,6 +65,7 @@ class meta_tag_extractor():
 
 if __name__ == '__main__':
     meta_tag_extractor = meta_tag_extractor()
+    meta_tag_extractor.set_chrome_driver("c:/temp/chromedriver.exe")
     print(meta_tag_extractor.extract_tags_using_urllib("http://www.buybuybaby.com/"))
     print(meta_tag_extractor.extract_tags_using_chrome("http://www.buybuybaby.com/"))
     meta_tag_extractor.close_webdriver()
