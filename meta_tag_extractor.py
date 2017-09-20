@@ -5,7 +5,7 @@ from selenium import webdriver
 
 import os
 
-class meta_tag_extractor():
+class MetaTagExtractor:
     def __init__(self):
         self.chromedriver = None
         self.driver = None
